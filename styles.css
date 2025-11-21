@@ -84,7 +84,21 @@
 			font-weight: 300;
 			line-height: 35px; /* 175% */
 		}
-				
+.banner-area{
+	overflow:hidden
+}
+span.top-title{
+	position:relative;
+}
+		span.top-title::before {
+		    content: "";
+		    height: 1px;
+		    width: 600px;
+		    position: absolute;
+		    right: 106%;
+		    top: 50%;
+		    background: #FFFFFF;
+		}		
 		.global-bk-color{
 			background: var(--Linear, linear-gradient(78deg, #317EBB 20.03%, #FD5951 94.95%));
 			background-repeat: no-repeat;
@@ -857,6 +871,7 @@ padding: 20px 0;
 				padding-top: 140px
 			}
 		}
+
 
 
 
