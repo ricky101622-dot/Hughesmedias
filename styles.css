@@ -201,7 +201,9 @@
 		}
 		/*End Banner Area*/
 		
-		
+		.container-fluid img {
+    margin: 0 auto;
+}
 /*	message-getting	*/
 		.message-getting-area{
 			padding: 190px 20px;
@@ -855,5 +857,6 @@ padding: 20px 0;
 				padding-top: 140px
 			}
 		}
+
 
 
