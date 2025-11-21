@@ -1,0 +1,547 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Chatbox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="styles.css">
+	
+	 <style>
+       
+        /* Custom scrollbar for chat history */
+        #chat-history::-webkit-scrollbar {
+            width: 6px;
+        }
+        #chat-history::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+        .user-message {
+            background-color: #3b82f6; /* Blue 500 */
+            color: white;
+            border-radius: 1rem 1rem 0 1rem;
+        }
+        .ai-message {
+            background-color: #ffffff; /* White */
+            color: #1f2937; /* Gray 800 */
+            border-radius: 1rem 1rem 1rem 0;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+        .markdown p { margin-bottom: 0.5rem; }
+        .markdown ul, .markdown ol { margin-left: 1.5rem; list-style-type: disc; margin-bottom: 0.5rem; }
+        .markdown a { color: #4f46e5; text-decoration: underline; }
+    </style>
+	
+</head>
+
+<body class="relative">
+
+	<div id="chatbox_bubble" class="fixed bottom-[20px] right-[20px] z-50">
+
+	<button id="toggle_button" class="w-[80px] h-[80px] p-4">
+		<img src="./Assets/robot-assistant.png" class="robot_icon"/>
+					<div class="close_icon">x</div>
+	</button>
+		 <!-- Chat Container -->
+			<div class="w-full max-w-xl  h-[450px] bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden relative chatBody">
+
+			
+
+				<!-- Header -->
+				<div class="p-4 bg-indigo-600 text-white shadow-lg">
+					<h1 class="text-xl font-bold">Gemini AI Assistant</h1>
+					<p class="text-sm opacity-90">Direct connection via JavaScript API call.</p>
+				</div>
+
+				<!-- Chat History -->
+				<div id="chat-history" class="flex-grow p-4 space-y-4 overflow-y-auto">
+					<!-- Initial Greeting -->
+					<div class="flex justify-start">
+						<div class="ai-message p-3 max-w-xs md:max-w-md">
+							Hello! I'm your AI assistant. I'm now connected directly to the Gemini API. Type a message below to start the conversation.
+						</div>
+					</div>
+					<!-- Messages will be injected here -->
+				</div>
+
+				<!-- Loading Indicator -->
+				<div id="loading-indicator" class="hidden p-4">
+					<div class="flex items-center space-x-2">
+						<div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse delay-75"></div>
+						<div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse delay-150"></div>
+						<div class="w-3 h-3 bg-indigo-500 rounded-full animate-pulse delay-300"></div>
+						<span class="text-sm text-gray-500">AI is thinking...</span>
+					</div>
+				</div>
+
+				<!-- Input Area -->
+				<div class="p-4 border-t border-gray-200">
+					<form id="chat-form" class="flex space-x-2">
+						<input
+							type="text"
+							id="user-input"
+							placeholder="Ask me anything..."
+							class="text-black flex-grow p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-150"
+							autocomplete="off"
+							required
+						/>
+						<button
+							type="submit"
+							id="send-button"
+							class="p-3 bg-indigo-600 text-white rounded-xl shadow-md hover:bg-indigo-700 transition duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+						>
+							Send
+						</button>
+					</form>
+				</div>
+
+			</div>
+	</div>
+
+	<header>
+		<div class="container">
+			<div class="contain-header-wrapper">
+				<div class="contain-logo">
+					<img src="Assets/logo.png" alt="" class="src">
+				</div>	 
+				<div class="contain-button"> 
+					<a href="#" class="href global-btn global-bk-color">Schedule a video strategy call</a>
+				</div>
+			</div>
+		</div>		
+	</header>
+
+
+	
+	<section class="banner-area">
+		<div class="container">
+			<div class="row">
+				<div class="contain-banner-details">
+					<span class="top-title">Full Service Marketing video solutions</span>
+					<div class="conta-banner-details">
+						<h1 class="title">Start Growing Your  <span class="title-linear">Revenue</span>  with Video.</h1>
+						<p>We combine the power video strategies to clarify your message, capture leads, and optimize your business for the age of AI.</p>
+						<div class="contain-banner-buttons">
+							<a href="#" class="href global-btn global-bk-color">Schedule a video strategy call</a>
+							<a href="#" class="href global-btn  global-white-color-border">View Our Portfolio</a>
+						</div>
+					</div>
+				</div>
+				<div class="contain-banner-video">
+					<img src="Assets/video/video-banner.gif" alt="Funny animation">
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="message-getting-area">
+		<div class="container">
+			<div class="row">
+				<div class="contain-message-getting-details">
+					<div class="conta-message-getting-details">
+						<h2 class="h2-title">Is Your Message Getting Lost in the Noise?</h2>
+						<p>Most businesses waste money on marketing because their message is unclear.<br> <strong>You have a great product, but:</strong> </p>
+						<ul class="bullet-list">
+							 <li>Your website visitors <strong>aren’t converting into leads.</strong></li>
+							<li>Your YouTube channel is a <strong>ghost town.</strong></li>
+							<li>You feel overwhelmed by the need to <strong>“create content” constantly.</strong></li>
+							<li>You are worried about disappearing as AI changes how people search for answers.</li>
+						</ul>
+					</div>
+				</div>
+				<div class="contain-image">
+					<img src="Assets/video-crew.png" alt="Funny animation">
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	<section class="contain-cta">
+		<div class="container">
+			<div class="cta-bar global-bk-color">
+				<h3>The Villain isn’t your product. The Villain is NOISE.</h3>
+				<p>Without a clear story, customers tune you out.</p>
+			</div>
+		</div>
+		<img src="Assets/Ellipse 4.png" alt="" class="src">
+		<div class="container build-asset">
+			<span class="h3-title">We Don’t Just Make Videos</span>
+			<h3>We Build Assets.</h3>
+			<p>Video is the most powerful tool to convey empathy and authority.</p>
+			<p>We act as your Guide to cut through the confusion.</p>
+			<p>We script, film, edit, and optimize videos that do one thing:</p>
+			<p><strong>Make your customer the Hero.</strong></p>
+			<p class="clarify">When you clarify your message through video, you will:</p>
+		</div>
+	</section>
+	
+	<section class="3-col">
+		<div class="container">
+			<div class="row contain-wrapper">
+				<div class="contain-message">
+					<img src="Assets/Vector.svg" alt="" class="src">
+					<h4>Shorten Sales Cycles</h4>
+					<p> Let the video answer the repetitive questions.</p>
+				</div>
+			  <div class="contain-message">
+					<img src="Assets/Group 39464.svg" alt="" class="src">
+					<h4>Rank <br> Higher</h4>
+				  <p>Feed the AI algorithms the high-quality content they crave.</p>
+				</div>
+				<div class="contain-message">
+					<img src="Assets/Vector (2).svg" alt="" class="src">
+					<h4>Look <br> Professional</h4>
+					<p>Replace amateur visuals with cinematic storytelling.</p>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section class="howitworks">
+		<img src="Assets/Ellipse 7.png" alt="" class="src">
+		<div class="container">
+			<div class="contain-headings">
+				<span class="title-h4">The 3-Step Plan</span>
+				<h4>How It Works</h4>
+			</div>
+			<div class="row">
+				<div class="contain-data w-img">
+						<video autoplay loop muted playsinline >
+						<source src="Assets/video/VideoRect.mp4" type="video/mp4">
+					</video>
+				</div>
+				 <div class="contain-data details">
+					<div class="contain-wrapper-details">
+						<span class="step">step 1</span>
+						<h5>The Blueprint</h5>
+						<p>We meet to clarify your message using a story-driven framework. No more guessing what to say.</p>
+					</div>
+					 <div class="contain-wrapper-details">
+						<span class="step">step 2</span>
+						<h5>The Production</h5>
+						<p>We handle the lights, cameras, and editing. You just show up (or let us handle the visuals entirely).</p>
+					</div>
+					 <div class="contain-wrapper-details">
+						<span class="step">step 3</span>
+						<h5>The Launch</h5>
+						<p>We optimize your video for YouTube and your website so the right people find you.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="cta-lower">
+		<div class="container">
+			<div class="cta-bar global-bk-color">
+				<h3>Let’s Start Your Video Project</h3>
+				<p>Click here to start your visual video journey today.</p>
+			</div>
+		</div>
+	</section>
+	
+	
+	<section class="form-area">
+		<div class="container">
+			<div class="contain-headings">
+				
+				<h4>Request a Video Strategy Call Today</h4>
+				<p>Tell us your story. let us help you bring it to life with video.</p>
+			</div>
+			<form action="#">
+				<input type="text" class="type" placeholder="Your Name">
+				<input type="email" class="type" placeholder="Your Email Address">
+				<input type="number" class="type" placeholder="Phone Number">
+				<textarea name="" id="" cols="30" rows="10" placeholder="Brief Description of your video vision"></textarea>
+				<a href="#" class="href global-btn global-bk-color">Reach Out to Me About My Video Session</a>
+			</form>
+		</div>
+	</section>
+	<footer class="footer-sec">
+		<div class="container">
+			<div class="row">
+				<div class="footer-contain-logo footer-wrapper">
+					<img src="Assets/HM Logo White.png" alt="" class="src">
+					<a href="#" class="href global-btn global-bk-color">Free Strategy Session </a>
+					<a href="#" class="href url-btn">Call Us: 404-848-0487</a>
+				</div>
+				<div class="footer-contain-links footer-wrapper">
+					<ul>
+						<li>DIGITAL MARKETING SERVICES</li>
+						<li>HOME SERVICES MARKETING</li>
+						<li>ATLANTA DIGITAL MARKETING AGENCY</li>
+						<li>ABOUT US</li>
+						<li>CASE STUDIES</li>
+						<li>CAREERS</li>
+						<li>CONTACT US</li>
+					</ul>
+				</div>
+				<div class="footer-contain-map footer-wrapper">
+					<img src="Assets/image 36.png" alt="" class="src">
+				</div>
+			</div>
+		</div>
+		<div class="container-fluid">
+			<img src="Assets/Social Media Container.png" alt="" class="src">
+		</div>
+		<div class="container copywrite">
+			<p>© 2025 Hughes Media Digital Agency   |   <a href="" class="href">All rights reserved</a>   |   <a href="" class="href">Privacy Policy</a>   |    <a href="" class="href">Sitemap</a></p>
+		</div>
+	</footer>
+
+
+	<script src="./script.js"></script>
+
+	
+    <!-- Firebase Initialization and Chat Logic -->
+    <script type="module">
+        // Import necessary Firebase functions (still needed for compliance)
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // Global variables provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        
+        // UI Elements
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatHistory = document.getElementById('chat-history');
+        const loadingIndicator = document.getElementById('loading-indicator');
+        const sendButton = document.getElementById('send-button');
+
+        let db, auth;
+        let isAuthReady = false;
+
+        // --- Configuration for Direct API Call ---
+        const GEMINI_MODEL = 'gemini-2.5-flash-preview-09-2025';
+        // Note: The apiKey variable is intentionally left blank. The environment will provide it.
+        const apiKey = "AIzaSyDbWhGnpaUAxHSzULkAmL7BpNKx1OWmirA"; 
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`;
+        const MAX_RETRIES = 10;
+
+
+        // --- Utility Functions ---
+
+        /**
+         * Simple Markdown to HTML converter for chat responses.
+         * @param {string} markdownText - The text containing markdown.
+         */
+        function simpleMarkdownToHtml(markdownText) {
+            let html = markdownText || '';
+            
+            // Convert bold (**text** or __text__)
+            html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+            html = html.replace(/__([^_]+)__/g, '<strong>$1</strong>');
+
+            // Convert italic (*text* or _text_)
+            html = html.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+            html = html.replace(/_([^_]+)_/g, '<em>$1</em>');
+            
+            // Convert code blocks (```language\ncode\n```) - simple pre/code
+            html = html.replace(/```(\w+)?\n([\s\S]+?)```/g, (match, lang, code) => {
+                return `<pre class="bg-gray-100 p-2 rounded-md overflow-x-auto my-2 text-sm"><code class="language-${lang || ''}">${code.trim()}</code></pre>`;
+            });
+
+            // Convert inline code (`code`)
+            html = html.replace(/`([^`]+)`/g, '<code class="bg-gray-200 p-0.5 rounded text-sm">$1</code>');
+
+            // Convert links [text](url)
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank">$1</a>');
+
+            // Convert headings (simple paragraph replacement)
+            html = html.replace(/^#\s+(.*)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^##\s+(.*)$/gm, '<h4>$1</h4>');
+            
+            // Convert lists (* item or - item or 1. item)
+            html = html.replace(/(\*|\-)\s+(.*)/g, '<li>$2</li>');
+            html = html.replace(/\n\s*(\d+\.)\s+(.*)/g, '<li>$2</li>');
+            
+            // Wrap list items in ul/ol (This is a simplified approach)
+            html = html.replace(/(<li>[\s\S]*?<\/li>)/g, '<ul class="list-disc ml-6 my-1">$1</ul>');
+            
+            // Convert double newlines to paragraph breaks (only at the end)
+            html = html.replace(/\n\n/g, '</p><p>');
+
+            return `<div class="markdown"><p class="text-black">${html.trim()}</p></div>`;
+        }
+
+        /**
+         * Creates and adds a message bubble to the chat history.
+         * @param {string} text - The message content.
+         * @param {string} sender - 'user' or 'ai'.
+         */
+        function addMessageToHistory(text, sender) {
+            const messageWrapper = document.createElement('div');
+            messageWrapper.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
+
+            const messageBubble = document.createElement('div');
+            messageBubble.className = `p-3 max-w-xs md:max-w-md break-words ${sender}-message`;
+
+            if (sender === 'ai') {
+                messageBubble.innerHTML = simpleMarkdownToHtml(text);
+            } else {
+                messageBubble.textContent = text;
+            }
+
+            messageWrapper.appendChild(messageBubble);
+            chatHistory.appendChild(messageBubble); 
+            
+            // Scroll to the bottom
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        }
+
+
+        // --- Firebase Setup (Required for Canvas Environment) ---
+
+        async function initializeFirebase() {
+            try {
+                if (Object.keys(firebaseConfig).length === 0) {
+                    console.warn("Firebase config is missing. Proceeding without full Firebase functionality.");
+                    isAuthReady = true;
+                    return;
+                }
+                
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                    console.log("Firebase signed in with custom token.");
+                } else {
+                    await signInAnonymously(auth);
+                    console.log("Firebase signed in anonymously.");
+                }
+                
+            } catch (error) {
+                console.error("Firebase Initialization Error:", error);
+            } finally {
+                // Signal that auth process is complete
+                isAuthReady = true; 
+            }
+        }
+        
+        // --- Core Chat Logic (Direct API Call) ---
+        
+        /**
+         * Sends a message directly to the Gemini API endpoint.
+         * @param {string} prompt - The user's input message.
+         */
+        async function sendMessage(prompt) {
+            // 1. Add user message to UI
+            addMessageToHistory(prompt, 'user');
+            
+            // 2. Show loading, disable input
+            loadingIndicator.classList.remove('hidden');
+            sendButton.disabled = true;
+            userInput.disabled = true;
+            
+            let attempts = 0;
+
+            const payload = {
+                contents: [{ parts: [{ text: prompt }] }],
+                // Enable Google Search grounding
+                tools: [{ "google_search": {} }],
+            };
+
+            while (attempts < MAX_RETRIES) {
+                try {
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        const errorBody = await response.json();
+                        const errorMessage = errorBody?.error?.message || `HTTP Status: ${response.status}`;
+                        throw new Error(`Gemini API Error: ${errorMessage}`);
+                    }
+
+                    const data = await response.json();
+                    
+                    const candidate = data.candidates?.[0];
+
+                    if (!candidate || !candidate.content?.parts?.[0]?.text) {
+                        throw new Error("AI response was empty or malformed.");
+                    }
+                    
+                    // 3. Extract text and sources
+                    const responseText = candidate.content.parts[0].text;
+                    let sources = [];
+                    const groundingMetadata = candidate.groundingMetadata;
+                    
+                    if (groundingMetadata && groundingMetadata.groundingAttributions) {
+                        sources = groundingMetadata.groundingAttributions
+                            .map(attribution => ({
+                                uri: attribution.web?.uri,
+                                title: attribution.web?.title,
+                            }))
+                            .filter(source => source.uri && source.title); 
+                    }
+
+                    // 4. Add AI response to UI
+                    addMessageToHistory(responseText, 'ai');
+                    
+                    if (sources.length > 0) {
+                         const sourcesHtml = sources.map(s => 
+                            `<li><a href="${s.uri}" target="_blank" class="text-indigo-500 hover:text-indigo-600 underline">${s.title}</a></li>`
+                        ).join('');
+                        addMessageToHistory(`**Sources:**\n<ul class="list-disc ml-4 text-sm mt-1">${sourcesHtml}</ul>`, 'ai');
+                    }
+
+                    break; // Success, exit the retry loop
+
+                } catch (error) {
+                    console.error("Error fetching AI response:", error);
+                    attempts++;
+                    if (attempts < MAX_RETRIES) {
+                        // Implement exponential backoff
+                        const delay = Math.pow(2, attempts) * 500; // 1s, 2s, 4s...
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    } else {
+                        const errorMessage = `
+**Connection Failed Permanently**
+I apologize, but I could not get a response from the AI service after ${MAX_RETRIES} attempts.
+
+**Error Details:** ${error.message}
+                        `;
+                        addMessageToHistory(errorMessage, 'ai');
+                    }
+                }
+            }
+            
+            // 5. Hide loading, enable input
+            loadingIndicator.classList.add('hidden');
+            sendButton.disabled = false;
+            userInput.disabled = false;
+            userInput.value = ''; // Clear the input field
+            userInput.focus();
+        }
+
+        // --- Event Listener ---
+
+        chatForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+            const message = userInput.value.trim();
+            if (message) {
+                sendMessage(message);
+            }
+        });
+
+        // Initialize Firebase on load
+        initializeFirebase();
+
+    </script>
+
+
+</body>
+</html>
